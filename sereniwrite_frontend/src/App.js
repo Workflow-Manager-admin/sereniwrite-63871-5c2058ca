@@ -1,3 +1,4 @@
+// PUBLIC_INTERFACE
 import React, { useState, useRef } from 'react';
 import './App.css';
 
