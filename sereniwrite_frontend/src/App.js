@@ -1,4 +1,4 @@
-// PUBLIC_INTERFACE
+ // PUBLIC_INTERFACE
 import React, { useState, useRef } from 'react';
 import './App.css';
 
@@ -64,7 +64,7 @@ function App() {
           </div>
           <div className="header-right">
             <button
-              className="theme-toggle-btn"
+              className="theme-toggle-btn animated-btn-glow"
               onClick={toggleTheme}
               aria-label="Toggle theme"
               title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
