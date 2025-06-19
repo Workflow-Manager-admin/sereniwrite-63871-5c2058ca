@@ -1,16 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
 
 // PUBLIC_INTERFACE
 function App() {
-  // State to handle theme mode
+  // State for theme
   const [isDark, setIsDark] = useState(true);
+  // State for mood
+  const [mood, setMood] = useState(null);
+  // State for thought
+  const [thought, setThought] = useState('');
+  // Ref for textarea autofocus
+  const textareaRef = useRef(null);
 
   // PUBLIC_INTERFACE
   function toggleTheme() {
     setIsDark((prev) => !prev);
     if (typeof document !== 'undefined') {
       document.body.classList.toggle('light-theme', !isDark);
+    }
+  }
+
+  // Mood emojis and labels
+  const moods = [
+    { emoji: '😌', label: 'Calm' },
+    { emoji: '😕', label: 'Confused' },
+    { emoji: '😡', label: 'Angry' },
+    { emoji: '😭', label: 'Upset' },
+    { emoji: '😍', label: 'Loved' },
+  ];
+
+  // PUBLIC_INTERFACE
+  function handleShredClick(e) {
+    e.preventDefault();
+    // Stub for future shred animation
+    // TODO: implement shred animation
+    window.alert("Shredding animation coming soon!");
+    setThought('');
+    setMood(null);
+    if (textareaRef.current) {
+      textareaRef.current.focus();
     }
   }
 
@@ -54,22 +82,48 @@ function App() {
         </div>
       </nav>
 
-      {/* Landing Section */}
+      {/* Step 1: Mood selector + Thought input in glassmorphic card */}
       <main>
-        <section className="landing-section">
-          <h1 className="landing-heading">Welcome to Thought Detox</h1>
-          <div className="landing-subheading">
-            Let go of what’s weighing on your mind.
-          </div>
-          <button
-            className="start-detox-btn"
-            tabIndex={0}
-            type="button"
-            aria-label="Start Detox"
-          >
-            Start Detox
-          </button>
-        </section>
+        <div className="step1-gradient-bg">
+          <section className="step1-glass-card">
+            <h2 className="step1-heading">How are you feeling today?</h2>
+            <div className="step1-mood-row" role="radiogroup" aria-label="Mood selector">
+              {moods.map((m, idx) => (
+                <button
+                  key={m.emoji}
+                  className={`step1-mood-emoji${mood === idx ? ' selected' : ''}`}
+                  onClick={() => setMood(idx)}
+                  type="button"
+                  aria-label={m.label}
+                  tabIndex={0}
+                >
+                  <span style={{fontSize: '2.1rem'}}>{m.emoji}</span>
+                </button>
+              ))}
+            </div>
+            <form className="step1-form" autoComplete="off">
+              <textarea
+                ref={textareaRef}
+                value={thought}
+                onChange={e => setThought(e.target.value)}
+                className="step1-thought-textarea"
+                placeholder="Type what’s bothering you…"
+                autoFocus
+                rows={5}
+                maxLength={400}
+                aria-label="Type your thoughts"
+              />
+              <button
+                className="shred-btn-glass"
+                type="submit"
+                onClick={handleShredClick}
+                tabIndex={0}
+              >
+                <span role="img" aria-label="Shred">🗑️</span> Shred It
+              </button>
+            </form>
+          </section>
+        </div>
       </main>
     </div>
   );
