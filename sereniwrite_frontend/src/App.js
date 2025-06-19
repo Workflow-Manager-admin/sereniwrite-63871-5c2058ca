@@ -45,6 +45,8 @@ function App() {
 
   return (
     <div className={`app${isDark ? '' : ' light'}`}>
+      {/* Animated floating calming gradient background */}
+      <div className="animated-bg-gradient" aria-hidden="true" />
       {/* Header/Navbar */}
       <nav className="navbar thought-navbar">
         <div className="navbar-content">
